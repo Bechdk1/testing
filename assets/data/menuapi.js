@@ -5,14 +5,27 @@ const CANTEEN_URL =
 
 /**
  * Fetches the canteen menu.
- * Uses canteen.json locally, and calls the API directly in production
- * (the screen browser runs on the school network and can reach it).
+ * - Local dev: returns mock data from canteen.json
+ * - School network: fetches the API directly from the browser
+ * - Outside school network: falls back to the Netlify proxy function
  * @returns {Promise<{Week: number, Days: {DayName: string, Dish: string}[]}>}
  */
 export async function fetchMenu() {
-  const url = isLocal ? "/canteen.json" : CANTEEN_URL;
-  const result = await fetch(url);
-  if (!result.ok)
-    throw new Error(`Fetching failed: ${result.status} ${result.statusText}`);
-  return result.json();
+  if (isLocal) {
+    const result = await fetch("/canteen.json");
+    if (!result.ok)
+      throw new Error(`Mock fetch failed: ${result.status} ${result.statusText}`);
+    return result.json();
+  }
+
+  try {
+    const result = await fetch(CANTEEN_URL);
+    if (!result.ok) throw new Error(`Direct fetch failed: ${result.status}`);
+    return result.json();
+  } catch {
+    const result = await fetch("/.netlify/functions/menu");
+    if (!result.ok)
+      throw new Error(`Proxy fetch failed: ${result.status} ${result.statusText}`);
+    return result.json();
+  }
 }
