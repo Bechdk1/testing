@@ -2,7 +2,7 @@ import { get } from "./utils/get.js";
 import { create } from "./utils/create.js";
 import { set } from "./utils/set.js";
 import { BackgroundGradient } from "./BackgroundGradient.js";
-import { MenuModule } from "./modules/Menu.js";
+import { MenuModule } from "./modules/menuwindow.js";
 
 BackgroundGradient();
 
