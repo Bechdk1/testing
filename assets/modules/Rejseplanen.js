@@ -55,7 +55,6 @@ async function fetchRejseplanenAPI() {
   return data;
 }
 
-
 async function getRejseplanenData() {
   const cached = localStorage.getItem(CACHE_KEY);
 
@@ -72,7 +71,6 @@ async function getRejseplanenData() {
     return await fetchRejseplanenAPI();
   }
 }
-
 
 function loadBusTimes(data, leftList, rightList, onExpired) {
   if (!data) {
@@ -113,7 +111,6 @@ function loadBusTimes(data, leftList, rightList, onExpired) {
     })
     .slice(0, 7);
 
-  
   const busColors = {
     17: ["bg-light-blue", "bg-dark-blue"],
     18: ["bg-yellow", "bg-dark-yellow"],
@@ -157,7 +154,6 @@ function loadBusTimes(data, leftList, rightList, onExpired) {
     set([busNumber, busDirection, busTime], leftItem);
     set(leftItem, leftList);
 
-   
     const rightItem = create(
       "li",
       `rightItem flex min-h-[3.8rem] min-w-[7.5rem] items-center justify-center rounded-full ${bgCircle} text-lg font-extrabold text-accent-yellow shadow-sm`,
@@ -171,7 +167,6 @@ function loadBusTimes(data, leftList, rightList, onExpired) {
     }
   });
 }
-
 
 function getRemainingTimeLabel(dateString, timeString) {
   const now = new Date();
@@ -194,7 +189,6 @@ function getRemainingTimeLabel(dateString, timeString) {
 
   return `${formattedMins} min.`;
 }
-
 
 function startCountdown(
   dateString,
